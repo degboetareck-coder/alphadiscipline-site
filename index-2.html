@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AlphaDiscipline — Discipline. Mindset. Business.</title>
+<meta name="description" content="AlphaDiscipline — développement personnel, mindset et business pour ceux qui construisent en silence." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --r:#E30613;
+    --o:#C9A84C;
+    --bg:#080808;
+    --card:#111111;
+    --border:#1e1e1e;
+    --txt:#ffffff;
+    --muted:#8a8a8a;
+    --muted2:#4a4a4a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--txt);
+    font-family:'DM Sans',sans-serif;
+    font-weight:300;
+    overflow-x:hidden;
+    line-height:1.6;
+  }
+  .grain{
+    position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.035;
+    background-image:repeating-linear-gradient(135deg, #fff 0px, #fff 1px, transparent 1px, transparent 13px);
+  }
+
+  /* TOPBAR */
+  .topbar{
+    position:sticky;top:0;z-index:50;
+    padding:18px 24px;
+    background:rgba(8,8,8,.85);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .logo{
+    font-family:'Barlow Condensed',sans-serif;font-weight:900;
+    font-size:20px;letter-spacing:.02em;
+    text-decoration:none;color:var(--txt);
+  }
+  .logo span{color:var(--r);}
+
+  /* BURGER */
+  .burger{
+    width:28px;height:20px;position:relative;cursor:pointer;
+    background:none;border:none;padding:0;flex-shrink:0;z-index:101;
+  }
+  .burger span{
+    position:absolute;left:0;width:100%;height:2px;background:#fff;border-radius:2px;
+    transition:transform .3s ease, opacity .3s ease, top .3s ease, background .3s ease;
+  }
+  .burger span:nth-child(1){top:0;}
+  .burger span:nth-child(2){top:9px;}
+  .burger span:nth-child(3){top:18px;}
+  .burger.open span:nth-child(1){top:9px;transform:rotate(45deg);background:var(--r);}
+  .burger.open span:nth-child(2){opacity:0;}
+  .burger.open span:nth-child(3){top:9px;transform:rotate(-45deg);background:var(--r);}
+
+  /* DRAWER */
+  .drawer-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:90;
+    opacity:0;pointer-events:none;transition:opacity .35s ease;
+  }
+  .drawer-overlay.open{opacity:1;pointer-events:auto;}
+  .drawer{
+    position:fixed;top:0;right:0;height:100%;width:min(78vw,320px);
+    background:#0d0d0d;border-left:1px solid var(--border);z-index:95;
+    transform:translateX(100%);transition:transform .4s ease;
+    display:flex;flex-direction:column;padding:90px 30px 40px;
+  }
+  .drawer.open{transform:translateX(0);}
+  .drawer .dr-label{
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--muted2);margin-bottom:10px;
+  }
+  .drawer a{
+    display:block;color:#fff;text-decoration:none;
+    font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:22px;
+    text-transform:uppercase;letter-spacing:.01em;
+    padding:16px 0;border-bottom:1px solid var(--border);
+    transition:color .25s ease, padding-left .25s ease;
+  }
+  .drawer a:hover{color:var(--r);padding-left:8px;}
+
+  /* HERO */
+  .hero{
+    min-height:min(92vh,720px);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:60px 24px;position:relative;overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute;inset:0;z-index:0;
+    background-image:url('images/business-hero.jpg');
+    background-size:cover;background-position:center 30%;
+    filter:brightness(.42) saturate(1.05);
+    animation:kenburns 22s ease-in-out infinite alternate;
+  }
+  @keyframes kenburns{
+    0%{transform:scale(1) translate(0,0);}
+    100%{transform:scale(1.14) translate(-1.5%,-1%);}
+  }
+  .hero-overlay{
+    position:absolute;inset:0;z-index:0;
+    background:linear-gradient(180deg, rgba(8,8,8,.25) 0%, rgba(8,8,8,.55) 55%, rgba(8,8,8,.95) 100%);
+  }
+  .glow{
+    position:absolute;inset:0;pointer-events:none;z-index:1;
+    background:radial-gradient(ellipse 60% 50% at 50% 45%, rgba(227,6,19,.22) 0%, transparent 70%);
+    animation:pulse 8s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:.55;transform:scale(1);}
+    50%{opacity:1;transform:scale(1.08);}
+  }
+  .eyebrow{
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;
+    letter-spacing:.25em;text-transform:uppercase;color:var(--r);
+    margin-bottom:20px;position:relative;z-index:2;
+  }
+  .hero h1{
+    font-family:'Barlow Condensed',sans-serif;font-weight:900;
+    font-size:clamp(54px,15vw,112px);line-height:.92;
+    text-transform:uppercase;letter-spacing:-.01em;
+    position:relative;z-index:2;
+  }
+  .hero h1 .accent{color:var(--r);display:block;}
+  .typewriter{
+    font-size:clamp(15px,2.6vw,19px);color:var(--muted);
+    min-height:30px;margin:26px 0 38px;font-weight:300;
+    position:relative;z-index:2;
+  }
+  .typewriter::after{
+    content:'|';color:var(--r);margin-left:2px;
+    animation:blink 1s step-start infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+
+  .cta{
+    display:inline-flex;align-items:center;gap:10px;
+    background:var(--r);color:#fff;text-decoration:none;
+    padding:18px 42px;
+    font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;
+    letter-spacing:.08em;text-transform:uppercase;
+    clip-path:polygon(14px 0%,100% 0%,calc(100% - 14px) 100%,0% 100%);
+    transition:transform .25s ease, background .25s ease;
+    position:relative;z-index:2;
+  }
+  .cta:hover{transform:translateY(-2px);background:#ff1f30;}
+  .cta span{display:inline-block;transition:transform .25s ease;}
+  .cta:hover span{transform:translateX(4px);}
+
+  /* REVEAL */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+
+  /* PILLARS */
+  .pillars{max-width:940px;margin:0 auto;padding:110px 24px 90px;text-align:center;}
+  h2{
+    font-family:'Barlow Condensed',sans-serif;font-weight:900;
+    font-size:clamp(30px,5vw,48px);text-transform:uppercase;line-height:1.05;
+    margin-bottom:54px;
+  }
+  .pillar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;text-align:left;}
+  @media(max-width:760px){.pillar-grid{grid-template-columns:1fr;}}
+  .pillar{
+    background:var(--card);border:1px solid var(--border);border-top:3px solid var(--r);
+    padding:32px 26px;position:relative;
+  }
+  .pillar-business{
+    background:
+      linear-gradient(180deg, rgba(8,8,8,.55) 0%, rgba(8,8,8,.93) 75%),
+      url('images/travail.jpg') center 25% / cover;
+  }
+  .pillar-mindset{
+    background:
+      linear-gradient(180deg, rgba(8,8,8,.55) 0%, rgba(8,8,8,.93) 75%),
+      url('images/mindset.jpg') center / cover;
+  }
+  .mono{
+    width:46px;height:46px;border-radius:50%;
+    border:1px solid rgba(227,6,19,.4);background:rgba(227,6,19,.1);color:var(--r);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:18px;
+    margin-bottom:18px;
+  }
+  .pillar h3{
+    font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:19px;
+    text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px;
+  }
+  .pillar p{color:var(--muted);font-size:14px;line-height:1.65;}
+
+  /* QUOTE */
+  .quote{
+    padding:100px 24px;text-align:center;
+    border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  }
+  .quote p{
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;
+    font-size:clamp(24px,4.5vw,40px);max-width:760px;margin:0 auto;line-height:1.3;
+  }
+
+  /* FINAL CTA */
+  .final-cta{text-align:center;padding:110px 24px 90px;position:relative;}
+  .final-cta .sub{color:var(--muted);max-width:440px;margin:0 auto 38px;font-size:15px;}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--border);padding:36px 24px;text-align:center;}
+  .f-logo{
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;
+    color:var(--r);font-size:13px;margin-bottom:6px;
+  }
+  .f-sub{font-size:12px;color:var(--muted2);}
+  .f-copy{font-size:11px;color:#333;margin-top:6px;}
+
+  /* ACCESSIBILITY */
+  a:focus-visible, button:focus-visible{outline:2px solid var(--r);outline-offset:3px;}
+  @media (prefers-reduced-motion: reduce){
+    .glow{animation:none;}
+    .hero-bg{animation:none;}
+    .typewriter::after{animation:none;}
+    .reveal{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="grain"></div>
+
+  <header class="topbar">
+    <a class="logo" href="index.html">ALPHA<span>DISCIPLINE</span></a>
+    <button class="burger" id="burgerBtn" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <nav class="drawer" id="drawer" aria-hidden="true">
+    <div class="dr-label">Naviguer</div>
+    <a href="index.html">Accueil</a>
+    <a href="catalogue.html#business">Business</a>
+    <a href="catalogue.html#mindset">Mindset</a>
+    <a href="catalogue.html#corps-mental">Corps &amp; Mental</a>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-overlay"></div>
+      <div class="glow"></div>
+      <p class="eyebrow">Développement personnel · Mindset · Business</p>
+      <h1>ALPHA<span class="accent">DISCIPLINE</span></h1>
+      <p class="typewriter"><span id="tw-text"></span></p>
+      <a class="cta" href="catalogue.html">Commencer <span>→</span></a>
+    </section>
+
+    <section class="pillars">
+      <p class="eyebrow reveal">Trois piliers</p>
+      <h2 class="reveal">Une seule philosophie.<br>Trois terrains.</h2>
+      <div class="pillar-grid">
+        <div class="pillar pillar-business reveal">
+          <div class="mono">B</div>
+          <h3>Business</h3>
+          <p>Construire des revenus qui ne dépendent de personne d'autre que toi. Méthodes et systèmes pensés pour démarrer sans argent ni excuse.</p>
+        </div>
+        <div class="pillar pillar-mindset reveal">
+          <div class="mono">M</div>
+          <h3>Mindset</h3>
+          <p>La discipline n'est pas une émotion, c'est une décision répétée chaque jour. On travaille la tête avant de travailler le reste.</p>
+        </div>
+        <div class="pillar reveal">
+          <div class="mono">D</div>
+          <h3>Corps &amp; Mental</h3>
+          <p>Pas juste du sport. Le corps comme terrain d'entraînement de la volonté — force, sommeil, nutrition, clarté mentale.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="quote">
+      <p class="reveal">« On ne devient pas une référence<br>en suivant la foule. »</p>
+    </section>
+
+    <section class="final-cta">
+      <p class="eyebrow reveal">Prêt ?</p>
+      <h2 class="reveal">Arrête de planifier.<br>Commence.</h2>
+      <p class="sub reveal">Chaque jour que tu repousses est un jour qu'un autre utilise pour avancer.</p>
+      <a class="cta reveal" href="catalogue.html">Entrer dans Alpha Discipline <span>→</span></a>
+    </section>
+  </main>
+
+  <footer>
+    <div class="f-logo">ALPHADISCIPLINE</div>
+    <div class="f-sub">@alphadiscipline250 · TikTok</div>
+    <div class="f-copy">© 2026 AlphaDiscipline · Tous droits réservés</div>
+  </footer>
+
+  <script>
+    // Drawer menu
+    const burgerBtn = document.getElementById('burgerBtn');
+    const drawer = document.getElementById('drawer');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+
+    function openDrawer(){
+      drawer.classList.add('open');
+      drawerOverlay.classList.add('open');
+      burgerBtn.classList.add('open');
+      burgerBtn.setAttribute('aria-expanded','true');
+      drawer.setAttribute('aria-hidden','false');
+    }
+    function closeDrawer(){
+      drawer.classList.remove('open');
+      drawerOverlay.classList.remove('open');
+      burgerBtn.classList.remove('open');
+      burgerBtn.setAttribute('aria-expanded','false');
+      drawer.setAttribute('aria-hidden','true');
+    }
+    burgerBtn.addEventListener('click', () => {
+      drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+    });
+    drawerOverlay.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeDrawer(); });
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Typewriter
+    const phrases = [
+      "La discipline bat le talent qui ne travaille pas.",
+      "Ton corps. Ton mental. Ton business.",
+      "Personne ne viendra te sauver.",
+      "Construis en silence. Frappe fort."
+    ];
+    const twEl = document.getElementById('tw-text');
+
+    if (reduceMotion) {
+      twEl.textContent = phrases[0];
+    } else {
+      let pi = 0, ci = 0, deleting = false;
+      function tick(){
+        const word = phrases[pi];
+        if(!deleting){
+          ci++;
+          twEl.textContent = word.slice(0, ci);
+          if(ci === word.length){ deleting = true; setTimeout(tick, 2200); return; }
+        } else {
+          ci--;
+          twEl.textContent = word.slice(0, ci);
+          if(ci === 0){ deleting = false; pi = (pi + 1) % phrases.length; }
+        }
+        setTimeout(tick, deleting ? 30 : 55);
+      }
+      tick();
+    }
+
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    if (reduceMotion) {
+      revealEls.forEach(el => el.classList.add('visible'));
+    } else {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting){
+            entry.target.classList.add('visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      revealEls.forEach(el => obs.observe(el));
+    }
+  </script>
+
+</body>
+</html>

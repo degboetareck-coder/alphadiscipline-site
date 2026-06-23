@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Catalogue — AlphaDiscipline</title>
+<meta name="description" content="Business, Mindset, Corps & Mental — les outils AlphaDiscipline pour avancer." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --r:#E30613;
+    --o:#C9A84C;
+    --bg:#080808;
+    --card:#111111;
+    --border:#1e1e1e;
+    --txt:#ffffff;
+    --muted:#8a8a8a;
+    --muted2:#4a4a4a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--txt);
+    font-family:'DM Sans',sans-serif;font-weight:300;
+    overflow-x:hidden;line-height:1.6;
+  }
+  .grain{
+    position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.035;
+    background-image:repeating-linear-gradient(135deg, #fff 0px, #fff 1px, transparent 1px, transparent 13px);
+  }
+
+  /* TOPBAR */
+  .topbar{
+    position:sticky;top:0;z-index:50;
+    padding:18px 24px;background:rgba(8,8,8,.9);
+    backdrop-filter:blur(12px);border-bottom:1px solid var(--border);
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .logo{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:20px;letter-spacing:.02em;text-decoration:none;color:var(--txt);}
+  .logo span{color:var(--r);}
+
+  /* BURGER */
+  .burger{
+    width:28px;height:20px;position:relative;cursor:pointer;
+    background:none;border:none;padding:0;flex-shrink:0;z-index:101;
+  }
+  .burger span{
+    position:absolute;left:0;width:100%;height:2px;background:#fff;border-radius:2px;
+    transition:transform .3s ease, opacity .3s ease, top .3s ease, background .3s ease;
+  }
+  .burger span:nth-child(1){top:0;}
+  .burger span:nth-child(2){top:9px;}
+  .burger span:nth-child(3){top:18px;}
+  .burger.open span:nth-child(1){top:9px;transform:rotate(45deg);background:var(--r);}
+  .burger.open span:nth-child(2){opacity:0;}
+  .burger.open span:nth-child(3){top:9px;transform:rotate(-45deg);background:var(--r);}
+
+  /* DRAWER */
+  .drawer-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:90;
+    opacity:0;pointer-events:none;transition:opacity .35s ease;
+  }
+  .drawer-overlay.open{opacity:1;pointer-events:auto;}
+  .drawer{
+    position:fixed;top:0;right:0;height:100%;width:min(78vw,320px);
+    background:#0d0d0d;border-left:1px solid var(--border);z-index:95;
+    transform:translateX(100%);transition:transform .4s ease;
+    display:flex;flex-direction:column;padding:90px 30px 40px;
+  }
+  .drawer.open{transform:translateX(0);}
+  .drawer .dr-label{
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--muted2);margin-bottom:10px;
+  }
+  .drawer a{
+    display:block;color:#fff;text-decoration:none;
+    font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:22px;
+    text-transform:uppercase;letter-spacing:.01em;
+    padding:16px 0;border-bottom:1px solid var(--border);
+    transition:color .25s ease, padding-left .25s ease;
+  }
+  .drawer a:hover{color:var(--r);padding-left:8px;}
+
+  /* QUICK NAV (onglets) */
+  .quicknav{
+    display:flex;gap:8px;overflow-x:auto;padding:14px 24px;
+    border-bottom:1px solid var(--border);position:sticky;top:65px;z-index:40;
+    background:rgba(8,8,8,.94);backdrop-filter:blur(10px);
+    -ms-overflow-style:none;scrollbar-width:none;
+  }
+  .quicknav::-webkit-scrollbar{display:none;}
+  .qn-btn{
+    flex-shrink:0;background:var(--card);border:1px solid var(--border);color:var(--muted);
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.08em;
+    text-transform:uppercase;padding:9px 18px;border-radius:30px;cursor:pointer;
+    text-decoration:none;transition:border-color .25s, color .25s, background .25s;
+  }
+  .qn-btn:hover{border-color:var(--r);color:#fff;}
+  .qn-btn.active{background:var(--r);border-color:var(--r);color:#fff;}
+
+  /* HEADER */
+  .pagehead{max-width:760px;margin:0 auto;padding:64px 24px 50px;text-align:center;}
+  .eyebrow{
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;
+    letter-spacing:.25em;text-transform:uppercase;color:var(--r);margin-bottom:16px;
+  }
+  h1{
+    font-family:'Barlow Condensed',sans-serif;font-weight:900;
+    font-size:clamp(36px,7vw,60px);text-transform:uppercase;line-height:1.02;
+    margin-bottom:18px;
+  }
+  .pagehead p{color:var(--muted);font-size:15px;max-width:480px;margin:0 auto;}
+
+  /* TAB PANELS — isolation totale par catégorie */
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+  .panel-intro{
+    max-width:520px;margin:0 auto 28px;padding:0 24px;
+    text-align:center;color:var(--muted);font-size:14px;
+  }
+
+  /* PRODUCT GRID — façon couverture de livre */
+  .product-grid{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:14px;
+    max-width:860px;margin:0 auto;padding:0 24px 80px;
+  }
+  @media(min-width:560px){.product-grid{grid-template-columns:repeat(3,1fr);}}
+
+  .book-card{
+    display:flex;flex-direction:column;background:var(--card);
+    border:1px solid var(--border);text-decoration:none;color:var(--txt);
+    overflow:hidden;transition:transform .25s ease, border-color .25s ease;
+  }
+  .book-card:not(.soon):hover{transform:translateY(-4px);border-color:rgba(227,6,19,.45);}
+
+  .book-cover{
+    aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(160deg,#161616,#0a0a0a);
+    border-bottom:1px solid var(--border);position:relative;
+  }
+  .doc-icon{
+    width:56px;height:74px;position:relative;
+    background:linear-gradient(160deg,#1d1d1d,#0c0c0c);
+    box-shadow:5px 5px 0 rgba(0,0,0,.5);
+  }
+  .doc-icon::before{
+    content:'';position:absolute;top:0;right:0;
+    border-style:solid;border-width:0 12px 12px 0;
+    border-color:transparent var(--r) transparent transparent;
+  }
+  .doc-icon .dl{display:block;height:2px;background:rgba(255,255,255,.16);border-radius:1px;position:absolute;left:8px;}
+  .doc-icon .dl1{top:15px;width:60%;}
+  .doc-icon .dl2{top:23px;width:42%;}
+  .doc-icon .dl3{top:31px;width:50%;}
+  .doc-icon .pdf-tag{
+    position:absolute;bottom:6px;left:0;right:0;text-align:center;
+    font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:9px;
+    letter-spacing:.1em;color:var(--r);
+  }
+  .soon-tag{
+    position:absolute;top:8px;right:8px;
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:8px;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--o);
+    background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);
+    padding:3px 8px;border-radius:20px;
+  }
+  .book-card.soon .doc-icon{opacity:.3;}
+
+  .book-info{padding:14px;display:flex;flex-direction:column;gap:8px;flex:1;}
+  .book-info h3{
+    font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:13px;
+    text-transform:uppercase;line-height:1.25;letter-spacing:.01em;
+  }
+  .book-price{display:flex;align-items:baseline;gap:7px;margin-top:auto;}
+  .book-price .old{font-size:11px;color:#444;text-decoration:line-through;font-family:'Barlow Condensed',sans-serif;}
+  .book-price .new{font-size:19px;font-weight:900;color:var(--r);font-family:'Barlow Condensed',sans-serif;}
+  .book-price .pending{font-size:11px;color:var(--muted2);font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.05em;}
+  .book-btn{
+    display:block;text-align:center;background:var(--r);color:#fff;
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;
+    letter-spacing:.08em;text-transform:uppercase;padding:10px 0;
+  }
+  .book-card.soon .book-btn{background:#161616;color:var(--muted2);}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--border);padding:40px 24px;text-align:center;}
+  .f-logo{
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;
+    color:var(--r);font-size:13px;margin-bottom:6px;
+  }
+  .f-sub{font-size:12px;color:var(--muted2);}
+  .f-copy{font-size:11px;color:#333;margin-top:6px;}
+
+  a:focus-visible, button:focus-visible{outline:2px solid var(--r);outline-offset:3px;}
+</style>
+</head>
+<body>
+
+  <div class="grain"></div>
+
+  <header class="topbar">
+    <a class="logo" href="index.html">ALPHA<span>DISCIPLINE</span></a>
+    <button class="burger" id="burgerBtn" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <nav class="drawer" id="drawer" aria-hidden="true">
+    <div class="dr-label">Naviguer</div>
+    <a href="index.html">Accueil</a>
+    <a href="catalogue.html#business">Business</a>
+    <a href="catalogue.html#mindset">Mindset</a>
+    <a href="catalogue.html#corps-mental">Corps &amp; Mental</a>
+  </nav>
+
+  <nav class="quicknav">
+    <a class="qn-btn" href="#business" data-tab="business">Business</a>
+    <a class="qn-btn" href="#mindset" data-tab="mindset">Mindset</a>
+    <a class="qn-btn" href="#corps-mental" data-tab="corps-mental">Corps &amp; Mental</a>
+  </nav>
+
+  <main>
+    <section class="pagehead">
+      <p class="eyebrow">Catalogue</p>
+      <h1>Choisis ton terrain.</h1>
+      <p>Un terrain à la fois. Sélectionne une catégorie pour voir uniquement ce qu'elle contient.</p>
+    </section>
+
+    <!-- BUSINESS -->
+    <section class="tab-panel active" id="panel-business">
+      <p class="panel-intro">Construire des revenus qui ne dépendent de personne d'autre que toi.</p>
+      <div class="product-grid">
+        <a class="book-card" href="guide-trouver-affilies.html">
+          <div class="book-cover">
+            <img src="images/guide-affilies-cover.jpg" alt="Couverture du Guide Ultime : Trouver des Affiliés & Partenaires" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div class="book-info">
+            <h3>Guide Ultime : Trouver des Affiliés &amp; Partenaires</h3>
+            <div class="book-price"><span class="new" id="catPrice">2000 FCFA</span></div>
+          </div>
+          <span class="book-btn">Voir le produit</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- MINDSET -->
+    <section class="tab-panel" id="panel-mindset">
+      <p class="panel-intro">La discipline n'est pas une émotion, c'est une décision répétée chaque jour.</p>
+      <div class="product-grid">
+        <div class="book-card soon">
+          <div class="book-cover">
+            <div class="doc-icon">
+              <span class="dl dl1"></span><span class="dl dl2"></span><span class="dl dl3"></span>
+              <span class="pdf-tag">PDF</span>
+            </div>
+            <span class="soon-tag">Bientôt</span>
+          </div>
+          <div class="book-info">
+            <h3>Premier produit Mindset</h3>
+            <div class="book-price"><span class="pending">En préparation</span></div>
+          </div>
+          <span class="book-btn">Bientôt disponible</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CORPS & MENTAL -->
+    <section class="tab-panel" id="panel-corps-mental">
+      <p class="panel-intro">Le corps comme terrain d'entraînement de la volonté — pas juste du sport.</p>
+      <div class="product-grid">
+        <div class="book-card soon">
+          <div class="book-cover">
+            <div class="doc-icon">
+              <span class="dl dl1"></span><span class="dl dl2"></span><span class="dl dl3"></span>
+              <span class="pdf-tag">PDF</span>
+            </div>
+            <span class="soon-tag">Bientôt</span>
+          </div>
+          <div class="book-info">
+            <h3>Premier produit Corps &amp; Mental</h3>
+            <div class="book-price"><span class="pending">En préparation</span></div>
+          </div>
+          <span class="book-btn">Bientôt disponible</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="f-logo">ALPHADISCIPLINE</div>
+    <div class="f-sub">@alphadiscipline250 · TikTok</div>
+    <div class="f-copy">© 2026 AlphaDiscipline · Tous droits réservés</div>
+  </footer>
+  <script>
+    const burgerBtn = document.getElementById('burgerBtn');
+    const drawer = document.getElementById('drawer');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+
+    function openDrawer(){
+      drawer.classList.add('open');
+      drawerOverlay.classList.add('open');
+      burgerBtn.classList.add('open');
+      burgerBtn.setAttribute('aria-expanded','true');
+      drawer.setAttribute('aria-hidden','false');
+    }
+    function closeDrawer(){
+      drawer.classList.remove('open');
+      drawerOverlay.classList.remove('open');
+      burgerBtn.classList.remove('open');
+      burgerBtn.setAttribute('aria-expanded','false');
+      drawer.setAttribute('aria-hidden','true');
+    }
+    burgerBtn.addEventListener('click', () => {
+      drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+    });
+    drawerOverlay.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeDrawer(); });
+
+    // Onglets catégorie — isolation totale, aucun mélange
+    const qnBtns = document.querySelectorAll('.qn-btn');
+    const panels = document.querySelectorAll('.tab-panel');
+
+    function activateTab(id){
+      qnBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+      panels.forEach(p => p.classList.toggle('active', p.id === 'panel-' + id));
+    }
+    function currentHashId(){
+      const h = location.hash.replace('#','');
+      return h || 'business';
+    }
+    qnBtns.forEach(btn => {
+      btn.addEventListener('click', () => { activateTab(btn.dataset.tab); });
+    });
+    window.addEventListener('hashchange', () => activateTab(currentHashId()));
+    activateTab(currentHashId());
+
+    // Prix géolocalisé (même logique que les pages produit)
+    function detectIsAfrica(){
+      try{
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+        return tz.startsWith('Africa/');
+      }catch(e){ return true; }
+    }
+    const catPriceEl = document.getElementById('catPrice');
+    if(catPriceEl){ catPriceEl.textContent = detectIsAfrica() ? '2000 FCFA' : '9€'; }
+  </script>
+
+</body>
+</html>
