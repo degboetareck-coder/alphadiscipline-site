@@ -238,7 +238,7 @@
           </div>
           <div class="book-info">
             <h3>Guide Ultime : Trouver des Affiliés &amp; Partenaires</h3>
-            <div class="book-price"><span class="new" id="catPrice">2000 FCFA</span></div>
+            <div class="book-price"><span class="new cat-price">2000 FCFA</span></div>
           </div>
           <span class="book-btn">Voir le produit</span>
         </a>
@@ -249,20 +249,16 @@
     <section class="tab-panel" id="panel-mindset">
       <p class="panel-intro">La discipline n'est pas une émotion, c'est une décision répétée chaque jour.</p>
       <div class="product-grid">
-        <div class="book-card soon">
+        <a class="book-card" href="30-jours-de-discipline.html">
           <div class="book-cover">
-            <div class="doc-icon">
-              <span class="dl dl1"></span><span class="dl dl2"></span><span class="dl dl3"></span>
-              <span class="pdf-tag">PDF</span>
-            </div>
-            <span class="soon-tag">Bientôt</span>
+            <img src="images/30-jours-discipline-cover.jpg" alt="Couverture du défi 30 Jours de Discipline" style="width:100%;height:100%;object-fit:cover;">
           </div>
           <div class="book-info">
-            <h3>Premier produit Mindset</h3>
-            <div class="book-price"><span class="pending">En préparation</span></div>
+            <h3>30 Jours de Discipline</h3>
+            <div class="book-price"><span class="new cat-price">2000 FCFA</span></div>
           </div>
-          <span class="book-btn">Bientôt disponible</span>
-        </div>
+          <span class="book-btn">Voir le produit</span>
+        </a>
       </div>
     </section>
 
@@ -343,8 +339,11 @@
         return tz.startsWith('Africa/');
       }catch(e){ return true; }
     }
-    const catPriceEl = document.getElementById('catPrice');
-    if(catPriceEl){ catPriceEl.textContent = detectIsAfrica() ? '2000 FCFA' : '9€'; }
+    const catPriceEls = document.querySelectorAll('.cat-price');
+    if(catPriceEls.length){
+      const priceText = detectIsAfrica() ? '2000 FCFA' : '9€';
+      catPriceEls.forEach(el => el.textContent = priceText);
+    }
   </script>
 
 </body>
