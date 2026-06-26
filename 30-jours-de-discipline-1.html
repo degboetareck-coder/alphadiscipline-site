@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>30 Jours de Discipline — AlphaDiscipline</title>
+<meta name="description" content="Le défi PDF de 30 jours pour construire un mental inarrêtable : une leçon, un défi concret et une citation par jour." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --r:#E30613; --o:#C9A84C; --bg:#080808; --card:#111111;
+    --border:#1e1e1e; --txt:#ffffff; --muted:#8a8a8a; --muted2:#4a4a4a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;line-height:1.6;}
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.035;
+    background-image:repeating-linear-gradient(135deg, #fff 0px, #fff 1px, transparent 1px, transparent 13px);}
+
+  /* TOPBAR */
+  .topbar{position:sticky;top:0;z-index:50;padding:18px 24px;background:rgba(8,8,8,.9);
+    backdrop-filter:blur(12px);border-bottom:1px solid var(--border);
+    display:flex;align-items:center;justify-content:space-between;}
+  .logo{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:20px;letter-spacing:.02em;text-decoration:none;color:var(--txt);}
+  .logo span{color:var(--r);}
+  .burger{width:28px;height:20px;position:relative;cursor:pointer;background:none;border:none;padding:0;flex-shrink:0;z-index:101;}
+  .burger span{position:absolute;left:0;width:100%;height:2px;background:#fff;border-radius:2px;
+    transition:transform .3s ease, opacity .3s ease, top .3s ease, background .3s ease;}
+  .burger span:nth-child(1){top:0;} .burger span:nth-child(2){top:9px;} .burger span:nth-child(3){top:18px;}
+  .burger.open span:nth-child(1){top:9px;transform:rotate(45deg);background:var(--r);}
+  .burger.open span:nth-child(2){opacity:0;}
+  .burger.open span:nth-child(3){top:9px;transform:rotate(-45deg);background:var(--r);}
+  .drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:90;opacity:0;pointer-events:none;transition:opacity .35s ease;}
+  .drawer-overlay.open{opacity:1;pointer-events:auto;}
+  .drawer{position:fixed;top:0;right:0;height:100%;width:min(78vw,320px);background:#0d0d0d;
+    border-left:1px solid var(--border);z-index:95;transform:translateX(100%);transition:transform .4s ease;
+    display:flex;flex-direction:column;padding:90px 30px 40px;}
+  .drawer.open{transform:translateX(0);}
+  .drawer .dr-label{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--muted2);margin-bottom:10px;}
+  .drawer a{display:block;color:#fff;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:800;
+    font-size:22px;text-transform:uppercase;letter-spacing:.01em;padding:16px 0;border-bottom:1px solid var(--border);
+    transition:color .25s ease, padding-left .25s ease;}
+  .drawer a:hover{color:var(--r);padding-left:8px;}
+
+  /* BREADCRUMB */
+  .crumb{max-width:760px;margin:0 auto;padding:18px 24px 0;font-size:12px;color:var(--muted2);
+    font-family:'Barlow Condensed',sans-serif;letter-spacing:.04em;text-transform:uppercase;}
+  .crumb a{color:var(--muted2);text-decoration:none;} .crumb a:hover{color:var(--r);}
+
+  /* HERO */
+  .hero{max-width:760px;margin:0 auto;padding:30px 24px 50px;text-align:center;}
+  .eyebrow{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--r);margin-bottom:18px;}
+  h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:clamp(30px,7vw,48px);
+    text-transform:uppercase;line-height:1.05;margin-bottom:18px;}
+  .hero-sub{color:var(--muted);font-size:15px;max-width:480px;margin:0 auto 30px;}
+
+  .cover-photo{
+    width:170px;max-width:55%;display:block;margin:0 auto 26px;
+    border-radius:3px;filter:drop-shadow(0 18px 34px rgba(0,0,0,.65));
+  }
+
+  /* PRICE BLOCK */
+  .price-block{display:flex;align-items:baseline;justify-content:center;gap:6px;margin-bottom:6px;}
+  .price-block .amount{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:52px;color:var(--r);line-height:1;}
+  .price-note{font-size:11px;color:var(--muted2);margin-bottom:26px;}
+
+  .cta{display:inline-flex;align-items:center;gap:10px;background:var(--r);color:#fff;text-decoration:none;
+    padding:18px 42px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;letter-spacing:.08em;
+    text-transform:uppercase;clip-path:polygon(14px 0%,100% 0%,calc(100% - 14px) 100%,0% 100%);
+    transition:transform .25s ease, background .25s ease;}
+  .cta:hover{transform:translateY(-2px);background:#ff1f30;}
+  .cta span{display:inline-block;transition:transform .25s ease;} .cta:hover span{transform:translateX(4px);}
+  .trust-line{margin-top:16px;font-size:12px;color:var(--muted2);}
+
+  /* STATS */
+  .stats{display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap;
+    max-width:760px;margin:0 auto;padding:0 24px 60px;border-bottom:1px solid var(--border);padding-bottom:50px;}
+  .stat{text-align:center;}
+  .stat .n{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:28px;color:var(--r);line-height:1;}
+  .stat .l{font-size:10px;color:var(--muted2);text-transform:uppercase;letter-spacing:.05em;margin-top:4px;}
+  .stat-sep{width:1px;height:34px;background:var(--border);}
+
+  /* SECTIONS */
+  .section{max-width:680px;margin:0 auto;padding:60px 24px;}
+  .section.bordered{border-top:1px solid var(--border);}
+  h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:clamp(26px,5vw,38px);
+    text-transform:uppercase;line-height:1.05;margin-bottom:22px;}
+  .section p{color:var(--muted);font-size:14.5px;line-height:1.75;margin-bottom:14px;}
+  .section p strong{color:#ddd;font-weight:500;}
+
+  /* CHAPTERS LIST */
+  .chapter{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--border);align-items:flex-start;}
+  .chapter:last-child{border-bottom:none;}
+  .ch-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:20px;color:var(--r);flex-shrink:0;width:34px;}
+  .ch-body h3{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;text-transform:uppercase;
+    letter-spacing:.01em;margin-bottom:4px;color:#eee;}
+  .ch-body p{color:var(--muted);font-size:13px;margin:0;}
+
+  /* POUR QUI */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:480px){.grid2{grid-template-columns:1fr;}}
+  .col{background:var(--card);border:1px solid var(--border);padding:22px;}
+  .col-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.06em;
+    text-transform:uppercase;margin-bottom:14px;}
+  .col-title.yes{color:#1DB954;} .col-title.no{color:var(--r);}
+  .col-item{display:flex;gap:8px;font-size:13px;color:#bbb;margin-bottom:11px;line-height:1.4;}
+  .col-item span{flex-shrink:0;}
+
+  /* GARANTIE */
+  .garantie{background:var(--card);border:1px solid rgba(29,185,84,.25);padding:38px 28px;text-align:center;}
+  .garantie .gi{font-size:36px;margin-bottom:10px;}
+  .garantie h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:21px;text-transform:uppercase;
+    color:#1DB954;margin-bottom:10px;}
+  .garantie p{color:var(--muted);font-size:13.5px;max-width:420px;margin:0 auto;}
+
+  /* FAQ */
+  .faq-item{background:var(--card);border:1px solid var(--border);margin-bottom:2px;}
+  .faq-q{padding:18px 22px;font-size:14px;font-weight:600;display:flex;justify-content:space-between;
+    align-items:center;cursor:pointer;user-select:none;}
+  .faq-q .plus{color:var(--r);font-size:20px;transition:transform .3s ease;flex-shrink:0;margin-left:14px;}
+  .faq-item.open .plus{transform:rotate(45deg);}
+  .faq-a{padding:0 22px;font-size:13px;color:var(--muted);line-height:1.7;max-height:0;overflow:hidden;
+    transition:max-height .3s ease, padding .3s ease;}
+  .faq-item.open .faq-a{padding:0 22px 20px;max-height:300px;}
+
+  /* FINAL CTA */
+  .final-cta{text-align:center;padding:70px 24px 90px;border-top:1px solid var(--border);}
+
+  footer{border-top:1px solid var(--border);padding:36px 24px;text-align:center;}
+  .f-logo{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;color:var(--r);font-size:13px;margin-bottom:6px;}
+  .f-sub{font-size:12px;color:var(--muted2);}
+  .f-copy{font-size:11px;color:#333;margin-top:6px;}
+
+  a:focus-visible, button:focus-visible{outline:2px solid var(--r);outline-offset:3px;}
+</style>
+</head>
+<body>
+
+  <div class="grain"></div>
+
+  <header class="topbar">
+    <a class="logo" href="index.html">ALPHA<span>DISCIPLINE</span></a>
+    <button class="burger" id="burgerBtn" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <nav class="drawer" id="drawer" aria-hidden="true">
+    <div class="dr-label">Naviguer</div>
+    <a href="index.html">Accueil</a>
+    <a href="catalogue.html#business">Business</a>
+    <a href="catalogue.html#mindset">Mindset</a>
+    <a href="catalogue.html#corps-mental">Corps &amp; Mental</a>
+  </nav>
+
+  <div class="crumb"><a href="catalogue.html#mindset">Mindset</a> / 30 Jours de Discipline</div>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <p class="eyebrow">PDF · Défi Mindset · 2026</p>
+      <img src="images/30-jours-discipline-cover.jpg" alt="Couverture du défi 30 Jours de Discipline" class="cover-photo">
+      <h1>30 Jours de Discipline</h1>
+      <p class="hero-sub">Une leçon, un défi concret et une citation par jour, pendant 30 jours — jusqu'à ce que la discipline ne soit plus un effort, mais un réflexe.</p>
+
+      <div class="price-block">
+        <span class="amount cat-price" id="priceAmount">2000 FCFA</span>
+      </div>
+      <p class="price-note">Prix ajusté selon ta zone · confirmé sur la page de paiement</p>
+
+      <a class="cta" id="ctaBtn" href="#LIEN-CHARIOW-A-REMPLACER">Obtenir le défi <span>→</span></a>
+      <p class="trust-line">🔒 Paiement sécurisé · ⚡ Livraison immédiate · 🔁 Garanti 7 jours</p>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats">
+      <div class="stat"><div class="n">39</div><div class="l">Pages</div></div>
+      <div class="stat-sep"></div>
+      <div class="stat"><div class="n">30</div><div class="l">Jours</div></div>
+      <div class="stat-sep"></div>
+      <div class="stat"><div class="n">04</div><div class="l">Semaines</div></div>
+      <div class="stat-sep"></div>
+      <div class="stat"><div class="n">03</div><div class="l">Bonus</div></div>
+    </div>
+
+    <!-- PROBLÈME -->
+    <section class="section">
+      <h2>Tu sais. Tu ne fais pas.</h2>
+      <p>Tu as déjà lu les conseils. Tu sais qu'il faut se lever plus tôt, arrêter de scroller sans réfléchir, tenir tes engagements. Le problème n'a jamais été l'information — <strong>c'est l'absence d'un cadre qui transforme le savoir en action répétée.</strong></p>
+      <p>La motivation dure trois jours, parfois moins. Ce qu'il te faut, c'est une structure qui tient quand la motivation a disparu — jour après jour, jusqu'à ce que la discipline devienne automatique plutôt qu'un combat permanent.</p>
+    </section>
+
+    <!-- CONTENU -->
+    <section class="section bordered">
+      <h2>Ce que tu vas obtenir</h2>
+      <div class="chapters">
+        <div class="chapter">
+          <div class="ch-num">01</div>
+          <div class="ch-body"><h3>Semaine 1 — Fondations</h3><p>Routine, environnement, rapport au téléphone : les bases qui changent tout le reste.</p></div>
+        </div>
+        <div class="chapter">
+          <div class="ch-num">02</div>
+          <div class="ch-body"><h3>Semaine 2 — Action</h3><p>Priorisation, zéro excuse, travail dans le silence — la discipline appliquée au concret.</p></div>
+        </div>
+        <div class="chapter">
+          <div class="ch-num">03</div>
+          <div class="ch-body"><h3>Semaine 3 — Mental</h3><p>Motivation vs discipline, échec, regard des autres — le terrain que personne ne voit.</p></div>
+        </div>
+        <div class="chapter">
+          <div class="ch-num">04</div>
+          <div class="ch-body"><h3>Semaine 4 — Corps</h3><p>Sommeil, énergie, mouvement — la discipline physique comme socle du mental.</p></div>
+        </div>
+        <div class="chapter">
+          <div class="ch-num">05</div>
+          <div class="ch-body"><h3>Bilan guidé (Jour 29)</h3><p>3 questions pour transformer 29 jours d'expérience en vraie prise de conscience.</p></div>
+        </div>
+        <div class="chapter">
+          <div class="ch-num">06</div>
+          <div class="ch-body"><h3>Nouveau départ (Jour 30)</h3><p>Un engagement écrit, daté et signé — pour transformer le défi en mode de vie.</p></div>
+        </div>
+        <div class="chapter">
+          <div class="ch-num">07</div>
+          <div class="ch-body"><h3>Tracker visuel 30 jours</h3><p>Une grille à cocher pour voir ta progression d'un coup d'œil, jour après jour.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- POUR QUI -->
+    <section class="section bordered">
+      <h2>C'est pour toi si...</h2>
+      <div class="grid2">
+        <div class="col">
+          <div class="col-title yes">✓ Pour toi</div>
+          <div class="col-item"><span>✓</span>Tu veux construire une vraie discipline, pas juste un pic de motivation</div>
+          <div class="col-item"><span>✓</span>Tu préfères un cadre quotidien concret à de la théorie</div>
+          <div class="col-item"><span>✓</span>Tu es prêt à tenir 30 jours, même imparfaitement</div>
+          <div class="col-item"><span>✓</span>Tu veux un suivi visuel de ta progression</div>
+        </div>
+        <div class="col">
+          <div class="col-title no">✗ Pas pour toi</div>
+          <div class="col-item"><span>✗</span>Tu cherches un résultat magique sans rien faire au quotidien</div>
+          <div class="col-item"><span>✗</span>Tu veux un produit qui agit à ta place</div>
+          <div class="col-item"><span>✗</span>Tu abandonnes au premier jour raté (le défi prévoit justement ce cas)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GARANTIE -->
+    <section class="section bordered">
+      <div class="garantie">
+        <div class="gi">🛡️</div>
+        <h3>Garanti 7 jours</h3>
+        <p>Si le contenu ne te convient pas, écris-moi dans les 7 jours suivant l'achat et tu es remboursé. Sans question.</p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section bordered">
+      <h2>Questions fréquentes</h2>
+
+      <div class="faq-item">
+        <div class="faq-q">Je peux commencer un autre jour que le 1er du mois ?<span class="plus">+</span></div>
+        <div class="faq-a">Oui. Le défi commence le jour où tu ouvres le PDF — il n'est lié à aucune date du calendrier.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Faut-il imprimer le PDF ?<span class="plus">+</span></div>
+        <div class="faq-a">Non, il est pensé pour être utilisé directement sur téléphone ou tablette. Tu peux aussi l'imprimer si tu préfères écrire à la main.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Combien de temps ça prend chaque jour ?<span class="plus">+</span></div>
+        <div class="faq-a">5 à 10 minutes pour lire la leçon et le défi du jour. L'action elle-même varie — souvent quelques minutes, parfois un peu plus.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Comment je reçois le PDF après l'achat ?<span class="plus">+</span></div>
+        <div class="faq-a">Livraison automatique et immédiate après paiement, directement par email.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Pourquoi le prix change selon mon pays ?<span class="plus">+</span></div>
+        <div class="faq-a">Le prix est adapté au pouvoir d'achat local. Le contenu est strictement identique pour tout le monde.</div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="final-cta">
+      <h2>Prêt à transformer 30 jours en mode de vie ?</h2>
+      <div class="price-block" style="margin-top:20px;">
+        <span class="amount cat-price" id="priceAmount2">2000 FCFA</span>
+      </div>
+      <a class="cta" id="ctaBtn2" href="#LIEN-CHARIOW-A-REMPLACER">Obtenir le défi <span>→</span></a>
+    </section>
+  </main>
+
+  <footer>
+    <div class="f-logo">ALPHADISCIPLINE</div>
+    <div class="f-sub">@alphadiscipline250 · TikTok</div>
+    <div class="f-copy">© 2026 AlphaDiscipline · Tous droits réservés</div>
+  </footer>
+
+  <script>
+    // Drawer
+    const burgerBtn = document.getElementById('burgerBtn');
+    const drawer = document.getElementById('drawer');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+    function openDrawer(){drawer.classList.add('open');drawerOverlay.classList.add('open');burgerBtn.classList.add('open');burgerBtn.setAttribute('aria-expanded','true');drawer.setAttribute('aria-hidden','false');}
+    function closeDrawer(){drawer.classList.remove('open');drawerOverlay.classList.remove('open');burgerBtn.classList.remove('open');burgerBtn.setAttribute('aria-expanded','false');drawer.setAttribute('aria-hidden','true');}
+    burgerBtn.addEventListener('click', () => { drawer.classList.contains('open') ? closeDrawer() : openDrawer(); });
+    drawerOverlay.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeDrawer(); });
+
+    // Prix géolocalisé (heuristique fuseau horaire — gratuit, sans API)
+    function detectIsAfrica(){
+      try{
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+        return tz.startsWith('Africa/');
+      }catch(e){ return true; } // fallback : public principal = Afrique
+    }
+    const isAfrica = detectIsAfrica();
+    const priceText = isAfrica ? '2000 FCFA' : '9€';
+
+    const checkoutLink = isAfrica
+      ? 'https://akijntkn.mychariow.shop/prd_122br414/checkout'
+      : 'https://akijntkn.mychariow.shop/prd_fg0vismk/checkout';
+
+    document.querySelectorAll('.cat-price').forEach(el => el.textContent = priceText);
+    document.getElementById('ctaBtn').href = checkoutLink;
+    document.getElementById('ctaBtn2').href = checkoutLink;
+
+    // FAQ accordéon
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.querySelector('.faq-q').addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(o => o.classList.remove('open'));
+        if(!isOpen) item.classList.add('open');
+      });
+    });
+  </script>
+
+</body>
+</html>
